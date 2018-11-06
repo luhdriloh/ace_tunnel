@@ -6,10 +6,8 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rigidbodyComponent;
     public float radius;
-    public float speed;
 
     private float angleOnCircle;
-
 
 	private void Start ()
     {
@@ -36,15 +34,17 @@ public class Player : MonoBehaviour
             return;
         }
 
-        float movement = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+        float movement = (Input.GetAxis("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond);
         angleOnCircle = (angleOnCircle + movement) % 360;
 
         // also add the center of the circle. In our case we don't need to add anything
         //    the center of the circle is (0, 0)
         // we now know our angle, use radius, sin, and cos to find our new location
-        float x = Mathf.Sin(angleOnCircle) * radius;
-        float y = Mathf.Cos(angleOnCircle) * radius;
 
-        transform.position = new Vector3(x, y, 0);
+        // uses radians so the mod should be 2*pi
+        float x = Mathf.Sin(angleOnCircle * Mathf.Deg2Rad) * radius;
+        float y = Mathf.Cos(angleOnCircle * Mathf.Deg2Rad) * radius;
+
+        transform.position = new Vector3(x, y, transform.position.z);
     }
 }
