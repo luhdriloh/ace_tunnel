@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -9,18 +10,18 @@ public class Path : MonoBehaviour
     public List<GameObject> tunnelObjectsInUse;
     public GameObject tunnelObjectPrototype;
 
-    // what if we keep track of the last spawned tunnel then we can attach to
-    //    it the newly created one
-    
 
-    // ***** the best way to create the paths is simply to go left or right
-    // we simply need to know the points at which to stop or at which to create 
+    // what if we keep track of the last spawned tunnel then we can attach to
+    //    it the newly created one, if the path created is a turning point then
+    //    don't change its angle
+
 
     // use the midpoint formula to create our tunnel object
     // we will keep track of the next 5 seconds worth of tunnel
     // at 4 seconds we will create the next 4 seconds and so on and so forth
     private float currentPathPosition;
     private Movement movement;
+    private GameObject lastCreatedTunnel;
 
     private void Start ()
     {
@@ -33,6 +34,7 @@ public class Path : MonoBehaviour
         }
 
         movement = new Movement();
+        lastCreatedTunnel = null;
         CreateNextSetOfTunnels();
 	}
 	
@@ -52,7 +54,13 @@ public class Path : MonoBehaviour
                 tunnelsToRemove.Add(tunnelObject);
             }
 
-            tunnel.updateTunnelPosition(deltatime);
+            tunnel.UpdateTunnelPosition(deltatime);
+        }
+
+        foreach (GameObject tunnelObject in tunnelObjectsInUse)
+        {
+            Tunnel tunnel = tunnelObject.GetComponent<Tunnel>();
+            tunnel.DrawRoad();
         }
 
         foreach (GameObject tunnelToRemove in tunnelsToRemove)
@@ -61,17 +69,23 @@ public class Path : MonoBehaviour
             tunnelToRemove.gameObject.SetActive(false);
             tunnelObjectsNotInUse.Enqueue(tunnelToRemove);
         }
-	}
+    }
 
     private void CreateNextSetOfTunnels()
     {
-        tunnelObjectsInUse.Add(tunnelObjectsNotInUse.Dequeue());
+        // retrieve the next tunnel to use
+        GameObject newTunnel = tunnelObjectsNotInUse.Dequeue();
+        tunnelObjectsInUse.Add(newTunnel);
 
+        // update the position of the new tunnel
         int movementDirection = movement.ReturnDirection();
         currentPathPosition += (GameConstants.anglesPerSecond * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
 
+        // initialize tunnel with position and previous tunnel, update lastCreatedTunnel
+        GameObject aRef = lastCreatedTunnel;
+        newTunnel.GetComponent<Tunnel>().Initialize(currentPathPosition, aRef);
+        lastCreatedTunnel = newTunnel;
 
-        tunnelObjectsInUse[tunnelObjectsInUse.Count - 1].GetComponent<Tunnel>().Initialize(currentPathPosition);
         Invoke("CreateNextSetOfTunnels", GameConstants.tunnelSpawnConstantNormal);
     }
 
@@ -80,8 +94,5 @@ public class Path : MonoBehaviour
 
     }
 
-    private void SetNextTurnPoint()
-    {
 
-    }
 }

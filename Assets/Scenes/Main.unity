@@ -473,5 +473,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tunnelObjectsInUse: []
-  tunnelObjectPrototype: {fileID: 1304390088266952, guid: 264cf313e4cf94e8cbadb9ca82971c69,
+  tunnelObjectPrototype: {fileID: 1712114704301306, guid: 264cf313e4cf94e8cbadb9ca82971c69,
     type: 2}
