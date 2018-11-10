@@ -8,6 +8,7 @@ public class Tunnel : MonoBehaviour {
     private float halfX;
     private float halfY;
     private GameObject tunnelInFront;
+    private GameObject tunnelBehind;
     private Shape shapeCreator;
 
     private Renderer rendererComponent;
@@ -15,6 +16,8 @@ public class Tunnel : MonoBehaviour {
 	private void Start ()
     {
         rendererComponent = GetComponent<Renderer>();
+        rendererComponent.enabled = false;
+
         Vector3 world = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         halfX = -world.x;
         halfY = -world.y;
@@ -25,20 +28,70 @@ public class Tunnel : MonoBehaviour {
     private void OnEnable()
     {
         rendererComponent = GetComponent<Renderer>();
+        rendererComponent.enabled = false;
     }
 
-    public void Initialize(float directionOfTravel, GameObject tunnel)
+    public void Initialize(float directionOfTravel, GameObject tunnelFront)
     {
         gameObject.SetActive(true);
         directionOfTravelInDegrees = directionOfTravel;
         transform.localScale = new Vector3(0, 0, 0);
         transform.eulerAngles = new Vector3(0, 0, directionOfTravelInDegrees);
         transform.position = Vector3.zero;
-        tunnelInFront = tunnel;
+        tunnelInFront = tunnelFront;
 
         // set the velocity in the direction of travel
         float radians = Mathf.Deg2Rad * directionOfTravelInDegrees;
         velocity = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0);
+    }
+
+    public void DeInitialize()
+    {
+        gameObject.SetActive(false);
+
+        // remove this tunnel from its neighbors
+        if (tunnelInFront != null)
+        {
+            tunnelInFront.GetComponent<Tunnel>().SetTunnelBehind(null);
+        }
+
+        if (tunnelBehind != null)
+        {
+            tunnelBehind.GetComponent<Tunnel>().SetTunnelInFront(null);
+        }
+
+        tunnelInFront = null;
+        tunnelBehind = null;
+    }
+
+    public void SetTunnelInFront(GameObject tunnel)
+    {
+        tunnelInFront = tunnel;
+    }
+
+    public GameObject GetTunnelInFront()
+    {
+        return tunnelInFront;
+    }
+
+    public void SetTunnelBehind(GameObject tunnel)
+    {
+        tunnelBehind = tunnel;
+    }
+
+    public GameObject GetTunnelBehind()
+    {
+        return tunnelBehind;
+    }
+
+    public Vector3 GetLeftSide()
+    {
+        return transform.Find("LeftSide").position;
+    } 
+
+    public Vector3 GetRightSide()
+    {
+        return transform.Find("RightSide").position;
     }
 
     public void UpdateTunnelPosition(float deltaTime)
@@ -60,6 +113,7 @@ public class Tunnel : MonoBehaviour {
 
         Vector2[] shapeVertices = new Vector2[4];
 
+        // make the positions relative to world space
         shapeVertices[0] = transform.TransformPoint(transform.Find("RightSide").position);
         shapeVertices[1] = transform.TransformPoint(transform.Find("LeftSide").position);
         shapeVertices[2] = transform.TransformPoint(tunnelInFront.transform.Find("LeftSide").position);
@@ -86,17 +140,36 @@ public class Tunnel : MonoBehaviour {
 
     public bool IsTunnelOutOfView()
     {
-        if (transform.position.x > halfX || transform.position.x < -halfX)
+        // tunnel must be outside of the game area but must also be out of view
+        // if we just do isVisible, we run into the problem where the component is sometimes
+        // small enough that the method will return true
+
+        if (transform.position.x > halfX + 1 || transform.position.x < -halfX - 1)
         {
             return true;
         }
 
-        if (transform.position.y > halfY || transform.position.y < -halfY)
+        if (transform.position.y > halfY + 1 || transform.position.y < -halfY - 1)
         {
             return true;
         }
 
         return false;
+    }
+
+    public bool NeighboringTunnelsOutOfView()
+    {
+        if (tunnelInFront != null && !tunnelInFront.GetComponent<Tunnel>().IsTunnelOutOfView())
+        {
+            return false;
+        }
+
+        if (tunnelBehind != null && !tunnelBehind.GetComponent<Tunnel>().IsTunnelOutOfView())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private float DistanceFromCenter()

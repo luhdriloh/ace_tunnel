@@ -47,4 +47,12 @@ public class Player : MonoBehaviour
 
         transform.position = new Vector3(x, y, transform.position.z);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("tunnel"))
+        {
+            Debug.Log("hit the fucking wall!");
+        }
+    }
 }

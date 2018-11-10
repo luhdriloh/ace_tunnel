@@ -4,18 +4,18 @@ using UnityEngine;
 
 public enum TravelDirection { Left=-1, Straight=0, Right=1 };
 
-public class Movement
+public class MovementCreation
 {
     private TravelDirection m_direction;
     private int m_timeToTravelInDirection;
 
-    public Movement()
+    public MovementCreation()
     {
         m_direction = TravelDirection.Straight;
         m_timeToTravelInDirection = 8;
     }
 
-    public Movement(TravelDirection direction, int timeToTravelInDirection)
+    public MovementCreation(TravelDirection direction, int timeToTravelInDirection)
     {
         m_direction = TravelDirection.Straight;
         m_timeToTravelInDirection = timeToTravelInDirection;
