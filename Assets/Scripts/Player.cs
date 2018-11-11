@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rigidbodyComponent;
-    public float radius;
 
     private float angleOnCircle;
 
@@ -20,11 +19,6 @@ public class Player : MonoBehaviour
 	private void Update ()
     {
         CheckPlayerMovement();
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     private void CheckPlayerMovement()
@@ -42,8 +36,8 @@ public class Player : MonoBehaviour
         // we now know our angle, use radius, sin, and cos to find our new location
 
         // uses radians so the mod should be 2*pi
-        float x = Mathf.Sin(angleOnCircle * Mathf.Deg2Rad) * radius;
-        float y = Mathf.Cos(angleOnCircle * Mathf.Deg2Rad) * radius;
+        float x = Mathf.Sin(angleOnCircle * Mathf.Deg2Rad) * GameConstants.playerDistanceFromCenter;
+        float y = Mathf.Cos(angleOnCircle * Mathf.Deg2Rad) * GameConstants.playerDistanceFromCenter;
 
         transform.position = new Vector3(x, y, transform.position.z);
     }

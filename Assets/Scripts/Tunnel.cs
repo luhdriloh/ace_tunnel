@@ -122,49 +122,22 @@ public class Tunnel : MonoBehaviour {
         shapeCreator.DrawShape(shapeVertices);
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    // set up the vertices to create the road
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawSphere(transform.Find("LeftSide").position, .05f);
-
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawSphere(transform.Find("RightSide").position, .05f);
-
-    //    if (tunnelInFront != null)
-    //    {
-    //        Gizmos.color = Color.blue;
-    //        Gizmos.DrawSphere(tunnelInFront.transform.Find("LeftSide").position, .01f);
-    //    }
-    //}
-
-    public bool IsTunnelOutOfView()
+    public bool IsTunnelOutOfBounds()
     {
         // tunnel must be outside of the game area but must also be out of view
         // if we just do isVisible, we run into the problem where the component is sometimes
         // small enough that the method will return true
-
-        if (transform.position.x > halfX + 1 || transform.position.x < -halfX - 1)
-        {
-            return true;
-        }
-
-        if (transform.position.y > halfY + 1 || transform.position.y < -halfY - 1)
-        {
-            return true;
-        }
-
-        return false;
+        return DistanceFromCenter() > GameConstants.outOfBoundsValue;
     }
 
     public bool NeighboringTunnelsOutOfView()
     {
-        if (tunnelInFront != null && !tunnelInFront.GetComponent<Tunnel>().IsTunnelOutOfView())
+        if (tunnelInFront != null && !tunnelInFront.GetComponent<Tunnel>().IsTunnelOutOfBounds())
         {
             return false;
         }
 
-        if (tunnelBehind != null && !tunnelBehind.GetComponent<Tunnel>().IsTunnelOutOfView())
+        if (tunnelBehind != null && !tunnelBehind.GetComponent<Tunnel>().IsTunnelOutOfBounds())
         {
             return false;
         }

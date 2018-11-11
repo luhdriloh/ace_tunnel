@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: tunnel_objects_0
     21300002: tunnel_objects_1
+    21300004: tunnel_objects_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -100,7 +101,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24d82529b16914b369f2b268b4f17aa9
+      spriteID: 8f47a64763ca34149b0e9b00db294abf
       vertices: []
       indices: 
       edges: []
@@ -109,9 +110,9 @@ TextureImporter:
       name: tunnel_objects_1
       rect:
         serializedVersion: 2
-        x: 231
-        y: 251
-        width: 14
+        x: 161
+        y: 253
+        width: 5
         height: 544
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -120,7 +121,27 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3769a05203d24ae8adcd4b84e526ae8
+      spriteID: 2bb58e6f0145b40bca4bf53d9bfbe343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tunnel_objects_2
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 44
+        width: 777
+        height: 780
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d900f7131f61948969b32cb84b8e208e
       vertices: []
       indices: 
       edges: []

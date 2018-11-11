@@ -6,30 +6,43 @@ using UnityEngine;
 
 public class TunnelSpawner : MonoBehaviour 
 {
-    public Queue<GameObject> tunnelObjectsNotInUse;
-    public List<GameObject> tunnelObjectsInUse;
+
     public GameObject tunnelObjectPrototype;
 
+    // objects to keep track of the tunnels that we spawn
+    private Queue<GameObject> tunnelObjectsNotInUse;
+    private Queue<GameObject> tunnelObjectsInUse;
+
+    // scripts that this gameobject will use
     private Shape shapeCreator;
-    private float currentPathPosition;
     private MovementCreation movement;
+
+    // the edge collider that we will put onto the path created
+    private EdgeCollider2D edgeCollider;
+
+    // the current position in angles, and the tunnel in the back
+    private float currentPathPosition;
     private GameObject tunnelInBack;
 
     private void Start ()
     {
         currentPathPosition = 90;
         tunnelObjectsNotInUse = new Queue<GameObject>();
-        tunnelObjectsInUse = new List<GameObject>();
+        tunnelObjectsInUse = new Queue<GameObject>();
 
+        // get the components that we need
+        edgeCollider = GetComponent<EdgeCollider2D>();
+        shapeCreator = GetComponentInChildren<Shape>();
+        movement = new MovementCreation();
+
+        // instantiate our tunnel objects 
         for (int i = 0; i < GameConstants.numberOfTunnelBuffers; i++)
         {
             tunnelObjectsNotInUse.Enqueue(Instantiate(tunnelObjectPrototype, transform.position + new Vector3(0, -10.0f, -10.0f), Quaternion.identity));
         }
 
-        shapeCreator = GetComponentInChildren<Shape>();
-        movement = new MovementCreation();
         tunnelInBack = null;
-        CreateNextSetOfTunnels();
+        CreateNextTunnel();
 	}
 	
 	private void Update ()
@@ -37,51 +50,85 @@ public class TunnelSpawner : MonoBehaviour
         // we will need to draw the line from each to tunnel to the next
         // update each tunnel in use
         float deltatime = Time.deltaTime;
-        List<GameObject> tunnelsToRemove = new List<GameObject>();
 
+        // update collider and draw the tunnels
+        UpdateTunnelPositions(deltatime);
+        RemoveOutOfBoundsTunnels();
+
+        Vector2[] vertices = GetTunnelPoints();
+        DrawTunnels(vertices);
+        UpdateColliders(vertices);
+    }
+
+
+    /// <summary>
+    /// Updates the tunnel positions given the delta time.
+    /// </summary>
+    /// <param name="deltaTime">The delta from the last frame</param>
+    private void UpdateTunnelPositions(float deltatime)
+    {
+        // update all the tunnels
         foreach (GameObject tunnelObject in tunnelObjectsInUse)
         {
             Tunnel tunnel = tunnelObject.GetComponent<Tunnel>();
-
-            // check if the tunnel is out of view as well as its neighbors
-            if (tunnel.IsTunnelOutOfView() && tunnel.NeighboringTunnelsOutOfView())
-            {
-                tunnelsToRemove.Add(tunnelObject);
-            }
-
             tunnel.UpdateTunnelPosition(deltatime);
         }
-
-        foreach (GameObject tunnel in tunnelsToRemove)
-        {
-            // remove the unneeded tunnels from the list
-            tunnel.GetComponent<Tunnel>().DeInitialize();
-            tunnelObjectsInUse.Remove(tunnel);
-
-            tunnelObjectsNotInUse.Enqueue(tunnel);
-        }
-
-        DrawTunnels();
-
-        //foreach (GameObject tunnelObject in tunnelObjectsInUse)
-        //{
-        //    Tunnel tunnel = tunnelObject.GetComponent<Tunnel>();
-        //    tunnel.DrawRoad();
-        //}
     }
 
-    private void DrawTunnels()
-    {
-        // start from the tunnel in the back all the way up until the first out of view tunnel
-        // after which continue on with the rest
 
+    /// <summary>
+    /// Removes tunnels that are out of bounds.
+    /// </summary>
+    private void RemoveOutOfBoundsTunnels()
+    {
+        Tunnel tunnel = tunnelObjectsInUse.Peek().GetComponent<Tunnel>();
+        bool outOfBounds = tunnel.IsTunnelOutOfBounds();
+
+        // make sure that the tunnel is actually out of bounds
+
+        while (outOfBounds)
+        {
+            // get the tunnel that is out of bounds and deinitialize it
+            GameObject tunnelThatIsOutOfBounds = tunnelObjectsInUse.Dequeue();
+            tunnel.DeInitialize();
+
+            tunnelObjectsNotInUse.Enqueue(tunnelThatIsOutOfBounds);
+
+            // set the new tunnels up
+            tunnel = tunnelObjectsInUse.Peek().GetComponent<Tunnel>();
+            outOfBounds = tunnel == null ? false : tunnel.IsTunnelOutOfBounds();
+        }
+    }
+
+    /// <summary>
+    /// Get all the tunnel paths and connect them together to create a road
+    /// </summary>
+    private void DrawTunnels(Vector2[] vertices)
+    {
+        shapeCreator.DrawShape(vertices);
+    }
+
+    /// <summary>
+    /// Updates our edge colliders with the edges of our path
+    /// </summary>
+    private void UpdateColliders(Vector2[] vertices)
+    {
+        edgeCollider.points = vertices;
+    }
+
+    /// <summary>
+    /// Return a vector of points that specifies the path created
+    /// </summary>
+    /// <returns>The tunnel points.</returns>
+    private Vector2[] GetTunnelPoints()
+    {
         GameObject tunnel = tunnelInBack;
         Tunnel tunnelComponent = tunnel != null ? tunnel.GetComponent<Tunnel>() : null;
         List<Vector2> leftSide = new List<Vector2>();
         List<Vector2> rightSide = new List<Vector2>();
 
         // if tunnel is not null and if tunnel is still in view
-        while (tunnel != null && !tunnelComponent.IsTunnelOutOfView())
+        while (tunnel != null && !tunnelComponent.IsTunnelOutOfBounds())
         {
             leftSide.Add(tunnelComponent.GetLeftSide());
             rightSide.Add(tunnelComponent.GetRightSide());
@@ -94,10 +141,15 @@ public class TunnelSpawner : MonoBehaviour
         rightSide.Reverse();
         leftSide.AddRange(rightSide);
 
-        shapeCreator.DrawShape(leftSide.ToArray());
+        return leftSide.ToArray();
     }
 
-    private void CreateNextSetOfTunnels()
+    /// <summary>
+    /// Creates the next tunnel. This is called at a specified time interval. The
+    ///     smaller the time interval the smoother our road will be as it has more
+    ///     points, thus higher resolution
+    /// </summary>
+    private void CreateNextTunnel()
     {
         // retrieve the next tunnel to use
         if (tunnelObjectsNotInUse.Count == 0)
@@ -109,7 +161,7 @@ public class TunnelSpawner : MonoBehaviour
         }
 
         GameObject newTunnelInTheBack = tunnelObjectsNotInUse.Dequeue();
-        tunnelObjectsInUse.Add(newTunnelInTheBack);
+        tunnelObjectsInUse.Enqueue(newTunnelInTheBack);
 
         // update the position of the new tunnel
         int movementDirection = movement.ReturnDirection();
@@ -125,6 +177,6 @@ public class TunnelSpawner : MonoBehaviour
         newTunnelInTheBack.GetComponent<Tunnel>().Initialize(currentPathPosition, tunnelInBack);
         tunnelInBack = newTunnelInTheBack;
 
-        Invoke("CreateNextSetOfTunnels", GameConstants.tunnelSpawnConstantNormal);
+        Invoke("CreateNextTunnel", GameConstants.tunnelSpawnConstantNormal);
     }
 }
