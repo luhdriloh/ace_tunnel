@@ -97,7 +97,7 @@ public class Tunnel : MonoBehaviour {
     public void UpdateTunnelPosition(float deltaTime)
     {
         // use the speed to shift tunnel, velocity is held in game constants
-        transform.position += (velocity.normalized * Time.deltaTime);
+        transform.position += (velocity.normalized * Time.deltaTime * GameConstants.tunnelVelocity);
 
         // scale the tunnel
         float newScale = GameConstants.scalingValue * transform.position.magnitude;

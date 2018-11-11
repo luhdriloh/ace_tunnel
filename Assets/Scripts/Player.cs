@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        float movement = (Input.GetAxis("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond);
+        float movement = (Input.GetAxis("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond * GameConstants.tunnelVelocity);
         angleOnCircle = (angleOnCircle + movement) % 360;
 
         // also add the center of the circle. In our case we don't need to add anything

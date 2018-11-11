@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class TunnelSpawner : MonoBehaviour 
 {
-
     public GameObject tunnelObjectPrototype;
 
     // objects to keep track of the tunnels that we spawn
@@ -26,7 +25,6 @@ public class TunnelSpawner : MonoBehaviour
 
     private void Start ()
     {
-        currentPathPosition = 90;
         tunnelObjectsNotInUse = new Queue<GameObject>();
         tunnelObjectsInUse = new Queue<GameObject>();
 
@@ -41,7 +39,9 @@ public class TunnelSpawner : MonoBehaviour
             tunnelObjectsNotInUse.Enqueue(Instantiate(tunnelObjectPrototype, transform.position + new Vector3(0, -10.0f, -10.0f), Quaternion.identity));
         }
 
+        currentPathPosition = 90;
         tunnelInBack = null;
+
         CreateNextTunnel();
 	}
 	
@@ -165,7 +165,7 @@ public class TunnelSpawner : MonoBehaviour
 
         // update the position of the new tunnel
         int movementDirection = movement.ReturnDirection();
-        currentPathPosition += (GameConstants.anglesPerSecond * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
+        currentPathPosition += (GameConstants.anglesPerSecond * GameConstants.tunnelVelocity * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
 
        
         if (tunnelInBack != null)
