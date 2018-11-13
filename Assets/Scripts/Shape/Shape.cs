@@ -5,7 +5,6 @@ using UnityEngine;
 public class Shape : MonoBehaviour
 {
     private Material mats;
-    private Vector2[] vectors;
 
     // Use this for initialization
     void Start()
@@ -17,7 +16,6 @@ public class Shape : MonoBehaviour
     {
         Vector2[] transformed = vertices2D.Select(v => (Vector2)transform.InverseTransformPoint(v)).ToArray<Vector2>();
         var vertices3D = System.Array.ConvertAll<Vector2, Vector3>(transformed, v => v);
-        vectors = transformed;
 
         // Use the triangulator to get indices for creating triangles
         var triangulator = new Triangulator(vertices2D);

@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     private bool isPaused;
     private bool gameover;
 
-    void Awake()
+    private void Awake()
     {
         if (controller == null)
         {
@@ -24,12 +24,13 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         isPaused = false;
+        gameover = false;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && gameover == false)
         {
             Pause();
         }
@@ -47,5 +48,11 @@ public class GameController : MonoBehaviour
             Time.timeScale = 0;
             isPaused = true;
         }
+    }
+
+    public void GameOver()
+    {
+        gameover = true;
+        Time.timeScale = 0;
     }
 }

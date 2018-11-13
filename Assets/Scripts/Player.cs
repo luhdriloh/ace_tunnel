@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("tunnel"))
         {
-            Debug.Log("hit the fucking wall!");
+            GameController.controller.GameOver();
         }
     }
 }

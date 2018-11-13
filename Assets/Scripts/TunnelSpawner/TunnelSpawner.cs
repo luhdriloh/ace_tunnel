@@ -42,9 +42,11 @@ public class TunnelSpawner : MonoBehaviour
         currentPathPosition = 90;
         tunnelInBack = null;
 
+        CreateStartTunnels();
         CreateNextTunnel();
 	}
 	
+
 	private void Update ()
     {
         // we will need to draw the line from each to tunnel to the next
@@ -144,6 +146,23 @@ public class TunnelSpawner : MonoBehaviour
         return leftSide.ToArray();
     }
 
+    private void CreateStartTunnels()
+    {
+        // we want to create tunnels all the way to the out of bounds values
+        float secondsForTunnelToGetOutOfBounds = GameConstants.outOfBoundsValue / GameConstants.tunnelVelocity;
+        int numberOfTunnelsToCreate = (int)Mathf.Ceil(secondsForTunnelToGetOutOfBounds / GameConstants.tunnelSpawnConstantNormal);
+        float yDelta = GameConstants.outOfBoundsValue / numberOfTunnelsToCreate;
+
+        for (int i = numberOfTunnelsToCreate - 1; i > 0; i--)
+        {
+            GameObject tunnelAdded = AddTunnelToEnd();
+            tunnelAdded.transform.position += new Vector3(0f, i * yDelta, 0);
+
+            float newScale = GameConstants.scalingValue * tunnelAdded.transform.position.magnitude;
+            tunnelAdded.transform.localScale = new Vector3(newScale, newScale, 0);
+        }
+    }
+
     /// <summary>
     /// Creates the next tunnel. This is called at a specified time interval. The
     ///     smaller the time interval the smoother our road will be as it has more
@@ -160,14 +179,16 @@ public class TunnelSpawner : MonoBehaviour
             }
         }
 
+        UpdateTunnelDirection();
+        AddTunnelToEnd();
+        Invoke("CreateNextTunnel", GameConstants.tunnelSpawnConstantNormal);
+    }
+
+    private GameObject AddTunnelToEnd()
+    {
         GameObject newTunnelInTheBack = tunnelObjectsNotInUse.Dequeue();
         tunnelObjectsInUse.Enqueue(newTunnelInTheBack);
 
-        // update the position of the new tunnel
-        int movementDirection = movement.ReturnDirection();
-        currentPathPosition += (GameConstants.anglesPerSecond * GameConstants.tunnelVelocity * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
-
-       
         if (tunnelInBack != null)
         {
             tunnelInBack.GetComponent<Tunnel>().SetTunnelBehind(newTunnelInTheBack);
@@ -177,6 +198,14 @@ public class TunnelSpawner : MonoBehaviour
         newTunnelInTheBack.GetComponent<Tunnel>().Initialize(currentPathPosition, tunnelInBack);
         tunnelInBack = newTunnelInTheBack;
 
-        Invoke("CreateNextTunnel", GameConstants.tunnelSpawnConstantNormal);
+        return tunnelInBack;
+    }
+
+
+    private void UpdateTunnelDirection()
+    {
+        // update the position of the new tunnel
+        int movementDirection = movement.ReturnDirection();
+        currentPathPosition += (GameConstants.anglesPerSecond * GameConstants.tunnelVelocity * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
     }
 }

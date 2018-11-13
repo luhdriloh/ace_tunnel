@@ -5,8 +5,6 @@ using UnityEngine;
 public class Tunnel : MonoBehaviour {
     private float directionOfTravelInDegrees;
     private Vector3 velocity;
-    private float halfX;
-    private float halfY;
     private GameObject tunnelInFront;
     private GameObject tunnelBehind;
     private Shape shapeCreator;
@@ -19,8 +17,6 @@ public class Tunnel : MonoBehaviour {
         rendererComponent.enabled = false;
 
         Vector3 world = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-        halfX = -world.x;
-        halfY = -world.y;
 
         shapeCreator = GetComponentInChildren<Shape>();
     }
