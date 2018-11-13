@@ -7,12 +7,14 @@ public class Player : MonoBehaviour
     public Rigidbody2D rigidbodyComponent;
 
     private float angleOnCircle;
+    private bool dead;
 
 	private void Start ()
     {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
 
         angleOnCircle = 0.0f;
+        dead = false;
 	}
 	
 
@@ -23,7 +25,7 @@ public class Player : MonoBehaviour
 
     private void CheckPlayerMovement()
     {
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) <= Mathf.Epsilon)
+        if (Mathf.Abs(Input.GetAxis("Horizontal")) <= Mathf.Epsilon || dead)
         {
             return;
         }
@@ -44,9 +46,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("tunnel"))
-        {
-            GameController.controller.GameOver();
-        }
+        dead = true;
+        GameController.controller.GameOver();
     }
 }

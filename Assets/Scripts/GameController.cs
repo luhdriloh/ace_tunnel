@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -30,9 +29,18 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && gameover == false)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Pause();
+            if (gameover == false)
+            {
+                Pause();
+            }
+            else
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Time.timeScale = 1;
+                isPaused = false;
+            }
         }
     }
 

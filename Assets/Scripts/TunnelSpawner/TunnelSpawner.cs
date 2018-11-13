@@ -47,7 +47,7 @@ public class TunnelSpawner : MonoBehaviour
 	}
 	
 
-	private void Update ()
+	private void Update()
     {
         // we will need to draw the line from each to tunnel to the next
         // update each tunnel in use
@@ -146,6 +146,9 @@ public class TunnelSpawner : MonoBehaviour
         return leftSide.ToArray();
     }
 
+    /// <summary>
+    /// Creates the starting tunnels so that the player starts within tunnels
+    /// </summary>
     private void CreateStartTunnels()
     {
         // we want to create tunnels all the way to the out of bounds values
