@@ -15,9 +15,6 @@ public class Tunnel : MonoBehaviour {
     {
         rendererComponent = GetComponent<Renderer>();
         rendererComponent.enabled = false;
-
-        Vector3 world = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-
         shapeCreator = GetComponentInChildren<Shape>();
     }
 

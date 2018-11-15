@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GameConstants
+﻿public class GameConstants
 {
     public static float playerDistanceFromCenter = 4.0f;
     public static float anglesPerSecond = 60;

@@ -7,7 +7,7 @@ public class TitleSceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("GamePlayScene");
+            SceneManager.LoadScene("StartMenuScene");
         }
     }
 }
