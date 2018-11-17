@@ -30,6 +30,7 @@ public class TunnelSpawner : MonoBehaviour
 
         // get the components that we need
         edgeCollider = GetComponent<EdgeCollider2D>();
+
         shapeCreator = GetComponentInChildren<Shape>();
         movement = new MovementCreation();
 
@@ -161,7 +162,7 @@ public class TunnelSpawner : MonoBehaviour
             GameObject tunnelAdded = AddTunnelToEnd();
             tunnelAdded.transform.position += new Vector3(0f, i * yDelta, 0);
 
-            float newScale = GameConstants.scalingValue * tunnelAdded.transform.position.magnitude;
+            float newScale = (Mathf.Pow(tunnelAdded.transform.position.magnitude, 2) / 17) * .4f;
             tunnelAdded.transform.localScale = new Vector3(newScale, newScale, 0);
         }
     }

@@ -6,45 +6,44 @@ public class Player : MonoBehaviour
 {
     public Rigidbody2D rigidbodyComponent;
 
-    private float angleOnCircle;
     private bool dead;
+    private float angleOnCircle;
 
 	private void Start ()
     {
         rigidbodyComponent = GetComponent<Rigidbody2D>();
-
-        angleOnCircle = 0.0f;
+        angleOnCircle = 0;
         dead = false;
 	}
 	
 
 	private void Update ()
     {
+    }
+
+    private void FixedUpdate()
+    {
         CheckPlayerMovement();
     }
 
     private void CheckPlayerMovement()
     {
-        if (Mathf.Abs(Input.GetAxis("Horizontal")) <= Mathf.Epsilon || dead)
+        if (dead)
         {
             return;
         }
 
-        float movement = (Input.GetAxis("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond * GameConstants.tunnelVelocity);
+        float movement = (Input.GetAxisRaw("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond * GameConstants.tunnelVelocity);
         angleOnCircle = (angleOnCircle + movement) % 360;
-
-        // also add the center of the circle. In our case we don't need to add anything
-        //    the center of the circle is (0, 0)
-        // we now know our angle, use radius, sin, and cos to find our new location
 
         // uses radians so the mod should be 2*pi
         float x = Mathf.Sin(angleOnCircle * Mathf.Deg2Rad) * GameConstants.playerDistanceFromCenter;
         float y = Mathf.Cos(angleOnCircle * Mathf.Deg2Rad) * GameConstants.playerDistanceFromCenter;
 
-        transform.position = new Vector3(x, y, transform.position.z);
+        rigidbodyComponent.MovePosition(new Vector2(x, y));
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         dead = true;
         GameController.controller.GameOver();
