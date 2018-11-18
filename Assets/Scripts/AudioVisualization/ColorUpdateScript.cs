@@ -3,7 +3,8 @@
 public class ColorUpdateScript : MonoBehaviour
 {
     public Color _baseColor;
-    public float _lowestColorValue, _highestColorValue;
+    public float _highestColorValue;
+    private float _lowestColorValue;
 
     private Camera _camera;
     private float _h;
@@ -14,6 +15,7 @@ public class ColorUpdateScript : MonoBehaviour
     {
         _camera = Camera.main;
         Color.RGBToHSV(_baseColor, out _h, out _s, out _v);
+        _lowestColorValue = _v * 100;
 	}
 	
 	private void Update ()

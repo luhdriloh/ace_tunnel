@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         isPaused = false;
         gameover = false;
     }
@@ -35,11 +36,13 @@ public class GameController : MonoBehaviour
             {
                 Pause();
             }
-            else
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (gameover == true)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                Time.timeScale = 1;
-                isPaused = false;
             }
         }
     }

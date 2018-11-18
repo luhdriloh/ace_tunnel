@@ -94,7 +94,7 @@ public class Tunnel : MonoBehaviour {
 
         // scale the tunnel
 
-        float newScale = (Mathf.Pow(transform.position.magnitude, 2) / 17) * .4f;
+        float newScale = transform.position.magnitude * GameConstants.scalingValue;
         transform.localScale = new Vector3(newScale, newScale, 0);
     }
 

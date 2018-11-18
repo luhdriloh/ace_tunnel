@@ -6,27 +6,29 @@ public enum TravelDirection { Left=-1, Straight=0, Right=1 };
 
 public class MovementCreation
 {
-    private TravelDirection m_direction;
-    private int m_timeToTravelInDirection;
+    private System.Random _random;
+    private TravelDirection _direction;
+    private int _timeToTravelInDirection;
 
     public MovementCreation()
     {
-        m_direction = TravelDirection.Straight;
-        m_timeToTravelInDirection = 8;
+        _random = new System.Random(GameConstants.randomSeed);
+        _direction = TravelDirection.Straight;
+        _timeToTravelInDirection = 8;
     }
 
     public MovementCreation(TravelDirection direction, int timeToTravelInDirection)
     {
-        m_direction = TravelDirection.Straight;
-        m_timeToTravelInDirection = timeToTravelInDirection;
+        _direction = TravelDirection.Straight;
+        _timeToTravelInDirection = timeToTravelInDirection;
     }
 
     public int ReturnDirection()
     {
-        int directionToReturn = (int)m_direction;
+        int directionToReturn = (int)_direction;
 
-        m_timeToTravelInDirection--;
-        if (m_timeToTravelInDirection == 0)
+        _timeToTravelInDirection--;
+        if (_timeToTravelInDirection == 0)
         {
             ChangeMovement();
         }
@@ -36,22 +38,22 @@ public class MovementCreation
 
     private void ChangeMovement()
     {
-        float newMovementType = Random.Range(0, 10);
+        float newMovementType = Mathf.FloorToInt((float)_random.NextDouble() * 10);
 
         if (newMovementType <= 1)
         {
-            m_direction = TravelDirection.Straight;
+            _direction = TravelDirection.Straight;
         }
         else if (newMovementType <= 5)
         {
-            m_direction = TravelDirection.Left;
+            _direction = TravelDirection.Left;
         }
         else
         {
-            m_direction = TravelDirection.Right;
+            _direction = TravelDirection.Right;
         }
 
-        float secondsToMoveInDirection = Random.Range(GameConstants.tunnelSpawnConstantNormal, 4f);
-        m_timeToTravelInDirection = (int)(secondsToMoveInDirection / GameConstants.tunnelSpawnConstantNormal);
+        float secondsToMoveInDirection = Random.Range(2f, 4f);
+        _timeToTravelInDirection = (int)(secondsToMoveInDirection / GameConstants.tunnelSpawnConstantNormal);
     }
 }

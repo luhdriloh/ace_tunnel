@@ -20,6 +20,7 @@ public class AudioPeer : MonoBehaviour
 
     private void Start()
     {
+        InitializeValues();
         _audioSource = GetComponent<AudioSource>();
         AudioProfile(highestFrequencyValue);
     }
@@ -32,6 +33,26 @@ public class AudioPeer : MonoBehaviour
         CreateAudioBands();
         GetAmplitude();
     }
+
+    /// <summary>
+    /// Initializes member values, for use when the scene gets reloaded
+    /// </summary>
+    private void InitializeValues()
+    {
+        _samplesLeft = new float[512];
+        _samplesRight = new float[512];
+        _frequencyBands = new float[8];
+        _frequencyBandBuffer = new float[8];
+        _bufferDecrease = new float[8];
+
+        _maxFrequencies = new float[8];
+        _clampedFrequencyBands = new float[8];
+        _clampedFrequncyBandsBuffer = new float[8];
+
+        _amplitude = 0f;
+        _amplitudeBuffer = 0f;
+        _highestAmplitude = 0f;
+}
 
     private void GetSpectrumAudioSource()
     {

@@ -162,7 +162,7 @@ public class TunnelSpawner : MonoBehaviour
             GameObject tunnelAdded = AddTunnelToEnd();
             tunnelAdded.transform.position += new Vector3(0f, i * yDelta, 0);
 
-            float newScale = (Mathf.Pow(tunnelAdded.transform.position.magnitude, 2) / 17) * .4f;
+            float newScale = tunnelAdded.transform.position.magnitude * GameConstants.scalingValue;
             tunnelAdded.transform.localScale = new Vector3(newScale, newScale, 0);
         }
     }
