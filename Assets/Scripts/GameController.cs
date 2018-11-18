@@ -3,18 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public static GameController controller;
+    public static GameController _controller;
 
-    private bool isPaused;
-    private bool gameover;
+    private bool _isPaused;
+    private bool _gameover;
+    private AudioPeer _audioPeer;
 
     private void Awake()
     {
-        if (controller == null)
+        if (_controller == null)
         {
-            controller = this;
+            _controller = this;
         }
-        else if (controller != this)
+        else if (_controller != this)
         {
             Destroy(gameObject);
         }
@@ -22,9 +23,10 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        _audioPeer = GetComponentInChildren<AudioPeer>();
         Time.timeScale = 1;
-        isPaused = false;
-        gameover = false;
+        _isPaused = false;
+        _gameover = false;
     }
 
     // Update is called once per frame
@@ -32,7 +34,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (gameover == false)
+            if (_gameover == false)
             {
                 Pause();
             }
@@ -40,7 +42,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (gameover == true)
+            if (_gameover == true)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
@@ -49,21 +51,23 @@ public class GameController : MonoBehaviour
 
     private void Pause()
     {
-        if (isPaused == true)
+        if (_isPaused == true)
         {
             Time.timeScale = 1;
-            isPaused = false;
+            _isPaused = false;
+            _audioPeer.StartMusic();
         }
         else
         {
             Time.timeScale = 0;
-            isPaused = true;
+            _isPaused = true;
+            _audioPeer.StopMusic();
         }
     }
 
     public void GameOver()
     {
-        gameover = true;
+        _gameover = true;
         Time.timeScale = 0;
     }
 }

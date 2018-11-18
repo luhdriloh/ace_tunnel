@@ -46,6 +46,6 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         dead = true;
-        GameController.controller.GameOver();
+        GameController._controller.GameOver();
     }
 }
