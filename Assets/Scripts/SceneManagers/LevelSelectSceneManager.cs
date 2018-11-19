@@ -17,5 +17,4 @@ public class LevelSelectSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene("GamePlayScene");
     }
-
 }

@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public static GameController _controller;
+    public GameObject _pauseScreen;
+    public GameObject _restartScreen;
 
     private bool _isPaused;
     private bool _gameover;
@@ -39,29 +41,23 @@ public class GameController : MonoBehaviour
                 Pause();
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (_gameover == true)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
-        }
     }
 
-    private void Pause()
+    public void Pause()
     {
         if (_isPaused == true)
         {
             Time.timeScale = 1;
             _isPaused = false;
             _audioPeer.StartMusic();
+            _pauseScreen.SetActive(false);
         }
         else
         {
             Time.timeScale = 0;
             _isPaused = true;
             _audioPeer.StopMusic();
+            _pauseScreen.SetActive(true);
         }
     }
 
@@ -69,5 +65,8 @@ public class GameController : MonoBehaviour
     {
         _gameover = true;
         Time.timeScale = 0;
+        _isPaused = true;
+        _audioPeer.StopMusic();
+        _restartScreen.SetActive(true);
     }
 }
