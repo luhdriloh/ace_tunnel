@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectButton : MonoBehaviour
 {
+    public Text _highscoreValue;
     public AudioClip _levelAudioClip;
     public Color _levelColor;
     public int _levelSelected;
@@ -23,6 +24,9 @@ public class LevelSelectButton : MonoBehaviour
     {
         _levelButton = GetComponent<Button>();
         _levelButton.onClick.AddListener(PlayGame);
+
+        float highscoreValue = GameStatsDataContainer._gameStatsInstance.ReturnLevelHighscore(_levelSelected);
+        _highscoreValue.text = Utils.ReturnTimeStringFromFloat(highscoreValue);
     }
 
     private void PlayGame()

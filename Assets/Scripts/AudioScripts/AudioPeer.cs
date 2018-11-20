@@ -15,11 +15,13 @@ public class AudioPeer : MonoBehaviour
 
     public static float _amplitude, _amplitudeBuffer, _highestAmplitude;
 
+    public static float _playbackProgressSeconds;
     private int _playbackProgress;
     private AudioSource _audioSource;
 
     public void StopMusic()
     {
+        _playbackProgressSeconds = _audioSource.time;
         _playbackProgress = _audioSource.timeSamples;
         _audioSource.Stop();
     }
@@ -72,6 +74,7 @@ public class AudioPeer : MonoBehaviour
         _amplitude = 0f;
         _amplitudeBuffer = 0f;
         _highestAmplitude = 0f;
+        _playbackProgressSeconds = 0f;
 }
 
     private void GetSpectrumAudioSource()

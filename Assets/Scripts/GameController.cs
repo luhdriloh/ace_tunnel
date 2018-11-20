@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (!_audioPeer.IsMusicPlaying() && !_gameover)
+        if (!_audioPeer.IsMusicPlaying() && !_gameover && !_isPaused)
         {
             LevelComplete();
         }
@@ -76,6 +76,9 @@ public class GameController : MonoBehaviour
         _isPaused = true;
         _audioPeer.StopMusic();
         _restartScreen.SetActive(true);
+
+        int level = LevelSelectData._levelSelect._levelSelected;
+        GameStatsDataContainer._gameStatsInstance.UpdateLevelHighscore(level, AudioPeer._playbackProgressSeconds);
     }
 
     public void LevelComplete()
@@ -83,10 +86,10 @@ public class GameController : MonoBehaviour
         _tunnelSpawner.SetActive(false);
         _levelWon = true;
         Time.timeScale = 0;
-    }
 
-    public void SerializeGameStatsData()
-    {
-
+        int level = LevelSelectData._levelSelect._levelSelected;
+        float songLength = LevelSelectData._levelSelect._levelAudioClip.length;
+        GameStatsDataContainer._gameStatsInstance.UpdateLevelComplete(level, true);
+        GameStatsDataContainer._gameStatsInstance.UpdateLevelHighscore(level, songLength);
     }
 }

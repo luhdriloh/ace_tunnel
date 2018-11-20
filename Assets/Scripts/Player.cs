@@ -13,11 +13,6 @@ public class Player : MonoBehaviour
         angleOnCircle = 0;
         dead = false;
 	}
-	
-
-	private void Update ()
-    {
-    }
 
     private void FixedUpdate()
     {
@@ -41,8 +36,9 @@ public class Player : MonoBehaviour
         rigidbodyComponent.MovePosition(new Vector2(x, y));
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.name);
         dead = true;
         GameController._controller.GameOver();
     }
