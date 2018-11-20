@@ -17,6 +17,8 @@ public class LevelSelectData : MonoBehaviour
     public float _minRestTravelTime;
     public float _maxRestTravelTime;
 
+    public float _tunnelVelocity;
+
     private void Awake()
     {
         if (_levelSelect == null)

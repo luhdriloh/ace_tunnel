@@ -17,7 +17,7 @@ public class GameStatsDataContainer : MonoBehaviour
         else
         {
             UpdateLevelHighscore(level, 0f);
-            return 0;
+            return 0f;
         }
     }
 

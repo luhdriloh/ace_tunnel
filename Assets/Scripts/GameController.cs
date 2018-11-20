@@ -91,5 +91,7 @@ public class GameController : MonoBehaviour
         float songLength = LevelSelectData._levelSelect._levelAudioClip.length;
         GameStatsDataContainer._gameStatsInstance.UpdateLevelComplete(level, true);
         GameStatsDataContainer._gameStatsInstance.UpdateLevelHighscore(level, songLength);
+
+        SceneManager.LoadScene("LevelSelectScene");
     }
 }

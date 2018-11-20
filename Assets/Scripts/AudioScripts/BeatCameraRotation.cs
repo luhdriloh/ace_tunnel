@@ -11,7 +11,7 @@ public class BeatCameraRotation : MonoBehaviour
 
     private void Start()
     {
-        _random = new System.Random(GameConstants.randomSeed);
+        _random = new System.Random(LevelSelectData._levelSelect._levelSeed);
         _timeToMoveInDirection = (float)_random.NextDouble() * 9 + 6;
         transform.Rotate(Vector3.zero);
     }

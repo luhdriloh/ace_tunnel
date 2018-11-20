@@ -154,7 +154,7 @@ public class TunnelSpawner : MonoBehaviour
     private void CreateStartTunnels()
     {
         // we want to create tunnels all the way to the out of bounds values
-        float secondsForTunnelToGetOutOfBounds = GameConstants.outOfBoundsValue / GameConstants.tunnelVelocity;
+        float secondsForTunnelToGetOutOfBounds = GameConstants.outOfBoundsValue / LevelSelectData._levelSelect._tunnelVelocity;
         int numberOfTunnelsToCreate = (int)Mathf.Ceil(secondsForTunnelToGetOutOfBounds / GameConstants.tunnelSpawnConstantNormal);
         float yDelta = GameConstants.outOfBoundsValue / numberOfTunnelsToCreate;
 
@@ -211,6 +211,6 @@ public class TunnelSpawner : MonoBehaviour
     {
         // update the position of the new tunnel
         int movementDirection = movement.ReturnDirection();
-        currentPathPosition += (GameConstants.anglesPerSecond * GameConstants.tunnelVelocity * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
+        currentPathPosition += (GameConstants.anglesPerSecond * LevelSelectData._levelSelect._tunnelVelocity * movementDirection) * GameConstants.tunnelSpawnConstantNormal;
     }
 }

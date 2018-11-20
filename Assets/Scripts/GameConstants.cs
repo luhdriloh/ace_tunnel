@@ -7,11 +7,9 @@
 
     public static int numberOfTunnelBuffers = 100;
     public static float tunnelSpawnConstantNormal = .1f;
-    public static float tunnelVelocity = 1.5f;
     public static float highestColorvalue = 100f;
 
     // should scale multplicitably
     public static float scalingValue = .1f;
     public static float outOfBoundsValue = 12f;
-    public static int randomSeed = 89;
 }

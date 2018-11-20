@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        float movement = (Input.GetAxisRaw("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond * GameConstants.tunnelVelocity);
+        float movement = (Input.GetAxisRaw("Horizontal") * Time.deltaTime * GameConstants.anglesPerSecond * LevelSelectData._levelSelect._tunnelVelocity);
         angleOnCircle = (angleOnCircle + movement) % 360;
 
         // uses radians so the mod should be 2*pi
