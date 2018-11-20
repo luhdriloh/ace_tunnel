@@ -31,7 +31,7 @@ public class LevelSelectSceneManager : MonoBehaviour
 
     private void PreviousLevelButtonPressed()
     {
-        _selectedLevel = (_selectedLevel - 1) % _levelObjects.Count;
+        _selectedLevel = (_selectedLevel + _levelObjects.Count - 1) % _levelObjects.Count;
         TurnLevelOn();
     }
 

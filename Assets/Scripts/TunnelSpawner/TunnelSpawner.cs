@@ -59,8 +59,9 @@ public class TunnelSpawner : MonoBehaviour
         RemoveOutOfBoundsTunnels();
 
         Vector2[] vertices = GetTunnelPoints();
-        DrawTunnels(vertices);
         UpdateColliders(vertices);
+        DrawTunnels(vertices);
+        
     }
 
 

@@ -53,7 +53,7 @@ public class MovementCreation
             _direction = TravelDirection.Right;
         }
 
-        float secondsToMoveInDirection = (float)((_random.NextDouble() * 4f) + 2f);
+        float secondsToMoveInDirection;
 
         if (_direction == TravelDirection.Straight)
         {

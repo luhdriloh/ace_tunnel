@@ -6,9 +6,11 @@ public class GameController : MonoBehaviour
     public static GameController _controller;
     public GameObject _pauseScreen;
     public GameObject _restartScreen;
+    public GameObject _tunnelSpawner;
 
     private bool _isPaused;
     private bool _gameover;
+    public bool _levelWon;
     private AudioPeer _audioPeer;
 
     private void Awake()
@@ -29,6 +31,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         _isPaused = false;
         _gameover = false;
+        _levelWon = false;
     }
 
     // Update is called once per frame
@@ -40,6 +43,11 @@ public class GameController : MonoBehaviour
             {
                 Pause();
             }
+        }
+
+        if (!_audioPeer.IsMusicPlaying() && !_gameover)
+        {
+            LevelComplete();
         }
     }
 
@@ -68,5 +76,17 @@ public class GameController : MonoBehaviour
         _isPaused = true;
         _audioPeer.StopMusic();
         _restartScreen.SetActive(true);
+    }
+
+    public void LevelComplete()
+    {
+        _tunnelSpawner.SetActive(false);
+        _levelWon = true;
+        Time.timeScale = 0;
+    }
+
+    public void SerializeGameStatsData()
+    {
+
     }
 }
