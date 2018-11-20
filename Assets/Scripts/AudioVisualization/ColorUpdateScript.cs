@@ -2,8 +2,6 @@
 
 public class ColorUpdateScript : MonoBehaviour
 {
-    public Color _baseColor;
-    public float _highestColorValue;
     private float _lowestColorValue;
 
     private Camera _camera;
@@ -14,7 +12,7 @@ public class ColorUpdateScript : MonoBehaviour
 	private void Start ()
     {
         _camera = Camera.main;
-        Color.RGBToHSV(_baseColor, out _h, out _s, out _v);
+        Color.RGBToHSV(LevelSelectData._levelSelect._levelColor, out _h, out _s, out _v);
         _lowestColorValue = _v * 100;
 	}
 	
@@ -22,7 +20,7 @@ public class ColorUpdateScript : MonoBehaviour
     {
         // lets find a new _v value
 
-        _v = (AudioPeer._clampedFrequncyBandsBuffer[1] * (_highestColorValue - _lowestColorValue) + _lowestColorValue) / 100;
+        _v = (AudioPeer._clampedFrequncyBandsBuffer[1] * (GameConstants.highestColorvalue - _lowestColorValue) + _lowestColorValue) / 100;
         _camera.backgroundColor = Color.HSVToRGB(_h, _s, _v);
 	}
 }

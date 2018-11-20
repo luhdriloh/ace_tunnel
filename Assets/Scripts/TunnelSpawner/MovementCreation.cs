@@ -12,7 +12,7 @@ public class MovementCreation
 
     public MovementCreation()
     {
-        _random = new System.Random(GameConstants.randomSeed);
+        _random = new System.Random(LevelSelectData._levelSelect._levelSeed);
         _direction = TravelDirection.Straight;
         _timeToTravelInDirection = 8;
     }
@@ -53,7 +53,17 @@ public class MovementCreation
             _direction = TravelDirection.Right;
         }
 
-        float secondsToMoveInDirection = Random.Range(2f, 4f);
+        float secondsToMoveInDirection = (float)((_random.NextDouble() * 4f) + 2f);
+
+        if (_direction == TravelDirection.Straight)
+        {
+            secondsToMoveInDirection = (float)((_random.NextDouble() * LevelSelectData._levelSelect._maxRestTravelTime) + LevelSelectData._levelSelect._minRestTravelTime);
+        }
+        else
+        {
+            secondsToMoveInDirection = (float)((_random.NextDouble() * LevelSelectData._levelSelect._maxDirectionTravelTime) + LevelSelectData._levelSelect._minDirectionTravelTime);
+        }
+
         _timeToTravelInDirection = (int)(secondsToMoveInDirection / GameConstants.tunnelSpawnConstantNormal);
     }
 }

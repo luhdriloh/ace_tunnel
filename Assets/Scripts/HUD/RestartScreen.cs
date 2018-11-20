@@ -10,11 +10,17 @@ public class RestartScreen : MonoBehaviour
     private void Start()
     {
         _restartButton.onClick.AddListener(Restart);
+        _backToHomeScreenButton.onClick.AddListener(BackToHomeScreen);
     }
 
     private void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void BackToHomeScreen()
+    {
+        SceneManager.LoadScene("HomeScreen");
     }
 }
 

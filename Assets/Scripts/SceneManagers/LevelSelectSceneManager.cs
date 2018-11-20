@@ -1,26 +1,52 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 
 public class LevelSelectSceneManager : MonoBehaviour
 {
-    public int _levelSelected;
-    public AudioClip _levelAudioClip;
+    public Button _previousLevelButton;
+    public Button _nextLevelButton;
 
-    private Button _levelButton;
+    public List<GameObject> _levelObjects;
+    public int _selectedLevel;
 
-    // Use this for initialization
-    private void Start()
+    private void Awake()
     {
-        _levelButton = GetComponent<Button>();
-        _levelButton.onClick.AddListener(PlayGame);
+        _selectedLevel = 0;
+        TurnLevelOn();
     }
 
-    private void PlayGame()
+    private void Start()
     {
-        LevelSelect._levelSelect._levelSelected = _levelSelected;
-        LevelSelect._levelSelect._levelAudioClip = _levelAudioClip;
-        SceneManager.LoadScene("GamePlayScene");
+        _previousLevelButton.onClick.AddListener(PreviousLevelButtonPressed);
+        _nextLevelButton.onClick.AddListener(NextLevelButtonPressed);
+    }
+
+    private void NextLevelButtonPressed()
+    {
+        _selectedLevel = (_selectedLevel + 1) % _levelObjects.Count;
+        TurnLevelOn();
+    }
+
+    private void PreviousLevelButtonPressed()
+    {
+        _selectedLevel = (_selectedLevel - 1) % _levelObjects.Count;
+        TurnLevelOn();
+    }
+
+    private void TurnLevelOn()
+    {
+        for (int i = 0; i < _levelObjects.Count; i++)
+        {
+            if (i == _selectedLevel)
+            {
+                _levelObjects[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                _levelObjects[i].gameObject.SetActive(false);
+            }
+        }
     }
 }

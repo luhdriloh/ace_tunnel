@@ -1372,11 +1372,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1002937105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f458238db7eec40d0ad06156c9f11204, type: 3}
+  m_Script: {fileID: 11500000, guid: ebfa65d16d6d7473f8b7498c7029cd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelSelected: 0
-  _levelAudioClip: {fileID: 0}
+  _levelAudioClip: {fileID: 8300000, guid: fabac66ff304644d99a5558fbfafa85c, type: 3}
+  _levelColor: {r: 0.5849056, g: 0, b: 0, a: 1}
+  _levelSelected: 1
+  _levelSeed: 89
+  _minDirectionTravelTime: 2
+  _maxDirectionTravelTime: 4
+  _minRestTravelTime: 2
+  _maxRestTravelTime: 4
 --- !u!1 &1075307006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2044,8 +2050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3762e38e07cb54351ad0148970e0014c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseColor: {r: 0.395, g: 0, b: 0, a: 0}
-  _highestColorValue: 90
 --- !u!1 &1594630764
 GameObject:
   m_ObjectHideFlags: 0

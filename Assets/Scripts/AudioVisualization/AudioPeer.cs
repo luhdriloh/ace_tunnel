@@ -34,7 +34,7 @@ public class AudioPeer : MonoBehaviour
     {
         InitializeValues();
         _audioSource = GetComponent<AudioSource>();
-        _audioSource.clip = LevelSelect._levelSelect._levelAudioClip;
+        _audioSource.clip = LevelSelectData._levelSelect._levelAudioClip;
         AudioProfile(highestFrequencyValue);
 
         _audioSource.Play();
