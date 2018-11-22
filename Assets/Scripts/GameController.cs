@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour
     public void GameOver()
     {
         _gameover = true;
+        GetComponentInChildren<TunnelSpawner>().UpdateCollidersAndTunnels();
         Time.timeScale = 0;
         _isPaused = true;
         _audioPeer.StopMusic();

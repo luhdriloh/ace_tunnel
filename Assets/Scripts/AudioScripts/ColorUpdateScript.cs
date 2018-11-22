@@ -6,6 +6,7 @@ public class ColorUpdateScript : MonoBehaviour
 
     private Camera _camera;
     private float _h;
+    private float _h2;
     private float _s;
     private float _v;
 
@@ -18,8 +19,6 @@ public class ColorUpdateScript : MonoBehaviour
 	
 	private void Update ()
     {
-        // lets find a new _v value
-
         _v = (AudioPeer._clampedFrequncyBandsBuffer[1] * (GameConstants.highestColorvalue - _lowestColorValue) + _lowestColorValue) / 100;
         _camera.backgroundColor = Color.HSVToRGB(_h, _s, _v);
 	}

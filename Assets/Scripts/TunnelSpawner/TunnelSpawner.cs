@@ -23,6 +23,13 @@ public class TunnelSpawner : MonoBehaviour
     private float currentPathPosition;
     private GameObject tunnelInBack;
 
+    public void UpdateCollidersAndTunnels()
+    {
+        Vector2[] vertices = GetTunnelPoints();
+        UpdateColliders(vertices);
+        DrawTunnels(vertices);
+    }
+
     private void Start ()
     {
         tunnelObjectsNotInUse = new Queue<GameObject>();
@@ -58,10 +65,7 @@ public class TunnelSpawner : MonoBehaviour
         UpdateTunnelPositions(deltatime);
         RemoveOutOfBoundsTunnels();
 
-        Vector2[] vertices = GetTunnelPoints();
-        UpdateColliders(vertices);
-        DrawTunnels(vertices);
-        
+        UpdateCollidersAndTunnels();
     }
 
 

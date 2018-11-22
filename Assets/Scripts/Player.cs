@@ -36,9 +36,8 @@ public class Player : MonoBehaviour
         rigidbodyComponent.MovePosition(new Vector2(x, y));
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D()
     {
-        Debug.Log(collision.gameObject.name);
         dead = true;
         GameController._controller.GameOver();
     }

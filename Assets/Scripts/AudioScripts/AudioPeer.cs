@@ -106,7 +106,7 @@ public class AudioPeer : MonoBehaviour
                 newValue = newValue < 0 ? 0 : newValue;
 
                 _frequencyBandBuffer[i] = newValue;
-                _bufferDecrease[i] *= 1.2f;
+                _bufferDecrease[i] *= 1.15f;
             }
         }
     }

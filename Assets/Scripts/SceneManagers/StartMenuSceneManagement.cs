@@ -6,23 +6,22 @@ using UnityEngine.SceneManagement;
 public class StartMenuSceneManagement : MonoBehaviour
 {
     public Button _playButton;
-    public Button _optionsButton;
+    public AudioClip _levelAudioClip;
+    public Color _levelColor;
 
-
-    // Use this for initialization
     private void Start ()
     {
         _playButton.onClick.AddListener(PlayButtonClicked);
-        _optionsButton.onClick.AddListener(OptionsButtonClicked);
+    }
+
+    private void OnEnable()
+    {
+        LevelSelectData._levelSelect._levelAudioClip = _levelAudioClip;
+        LevelSelectData._levelSelect._levelColor = _levelColor;
     }
 
     private void PlayButtonClicked()
     {
         SceneManager.LoadScene("LevelSelectScene");
-    }
-
-    private void OptionsButtonClicked()
-    {
-        SceneManager.LoadScene("GameOptionsScene");
     }
 }

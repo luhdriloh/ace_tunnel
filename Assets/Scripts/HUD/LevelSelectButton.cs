@@ -38,6 +38,11 @@ public class LevelSelectButton : MonoBehaviour
         _highscoreValue.text = Utils.ReturnTimeStringFromFloat(highscoreValue);
     }
 
+    private void OnEnable()
+    {
+        Camera.main.backgroundColor = _levelColor;
+    }
+
     private void PlayGame()
     {
         LevelSelectData._levelSelect._levelSelected = _levelSelected;
