@@ -43,7 +43,7 @@ public class LevelSelectButton : MonoBehaviour
         Camera.main.backgroundColor = _levelColor;
     }
 
-    private void PlayGame()
+    public void PlayGame()
     {
         LevelSelectData._levelSelect._levelSelected = _levelSelected;
         LevelSelectData._levelSelect._levelAudioClip = _levelAudioClip;

@@ -23,6 +23,22 @@ public class LevelSelectSceneManager : MonoBehaviour
         _nextLevelButton.onClick.AddListener(NextLevelButtonPressed);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            PreviousLevelButtonPressed();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            NextLevelButtonPressed();
+        }
+        else if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            _levelObjects[_selectedLevel].GetComponent<LevelSelectButton>().PlayGame();
+        }
+    }
+
     private void NextLevelButtonPressed()
     {
         _selectedLevel = (_selectedLevel + 1) % _levelObjects.Count;
