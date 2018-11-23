@@ -23,7 +23,7 @@ public class Shape : MonoBehaviour
 
         // Generate a color for each vertex
         var colors = Enumerable.Range(0, vertices3D.Length)
-            .Select(i => Color.white)
+            .Select(i => Color.black)
             .ToArray();
 
         // Create the mesh

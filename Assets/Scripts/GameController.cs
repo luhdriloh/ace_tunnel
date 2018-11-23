@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
     public static GameController _controller;
     public GameObject _pauseScreen;
     public GameObject _restartScreen;
+    public GameObject _newHighScoreScreen;
     public GameObject _tunnelSpawner;
 
     private bool _isPaused;
@@ -79,6 +80,14 @@ public class GameController : MonoBehaviour
         _restartScreen.SetActive(true);
 
         int level = LevelSelectData._levelSelect._levelSelected;
+        float currentHighScore = GameStatsDataContainer._gameStatsInstance.ReturnLevelHighscore(level);
+
+        if (currentHighScore < AudioPeer._playbackProgressSeconds)
+        {
+            _newHighScoreScreen.SetActive(true);
+            _newHighScoreScreen.GetComponent<NewHighScoreScript>().SetScores(currentHighScore, AudioPeer._playbackProgressSeconds);
+        }
+        
         GameStatsDataContainer._gameStatsInstance.UpdateLevelHighscore(level, AudioPeer._playbackProgressSeconds);
     }
 

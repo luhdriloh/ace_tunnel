@@ -933,8 +933,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highscoreValue: {fileID: 5140809}
   _levelCompletionStars: {fileID: 760751932}
-  _levelAudioClip: {fileID: 8300000, guid: fabac66ff304644d99a5558fbfafa85c, type: 3}
-  _levelColor: {r: 0.5849056, g: 0, b: 0, a: 1}
+  _levelAudioClip: {fileID: 8300000, guid: efe55d31bddab4353b60dae46aa5cfa4, type: 3}
+  _levelColor: {r: 0, g: 0.58431375, b: 0.20709579, a: 1}
   _levelSelected: 1
   _levelSeed: 89
   _minDirectionTravelTime: 2
@@ -1073,8 +1073,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highscoreValue: {fileID: 1936295374}
   _levelCompletionStars: {fileID: 1354841082}
-  _levelAudioClip: {fileID: 8300000, guid: 41e48e938e790460094a1f75546e298e, type: 3}
-  _levelColor: {r: 0, g: 0.6792453, b: 0.66607773, a: 1}
+  _levelAudioClip: {fileID: 8300000, guid: 62489c7bba9ad482181b9f231ee1cac7, type: 3}
+  _levelColor: {r: 0, g: 0.40230298, b: 0.6784314, a: 1}
   _levelSelected: 2
   _levelSeed: 9821
   _minDirectionTravelTime: 0.6
@@ -1414,8 +1414,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _highscoreValue: {fileID: 1301079351}
   _levelCompletionStars: {fileID: 1838701948}
-  _levelAudioClip: {fileID: 8300000, guid: 2c21100a56b674eeab63bd3649642d12, type: 3}
-  _levelColor: {r: 0.7830189, g: 0.7422838, b: 0, a: 1}
+  _levelAudioClip: {fileID: 8300000, guid: 66f6bdd5754bc431d9a7af636aa1d068, type: 3}
+  _levelColor: {r: 0.50620735, g: 0, b: 0.78431374, a: 1}
   _levelSelected: 3
   _levelSeed: 242
   _minDirectionTravelTime: 0.5

@@ -25,9 +25,7 @@ public class TunnelSpawner : MonoBehaviour
 
     public void UpdateCollidersAndTunnels()
     {
-        Vector2[] vertices = GetTunnelPoints();
-        UpdateColliders(vertices);
-        DrawTunnels(vertices);
+
     }
 
     private void Start ()
@@ -62,27 +60,13 @@ public class TunnelSpawner : MonoBehaviour
         float deltatime = Time.deltaTime;
 
         // update collider and draw the tunnels
-        UpdateTunnelPositions(deltatime);
         RemoveOutOfBoundsTunnels();
 
-        UpdateCollidersAndTunnels();
+        Vector2[] vertices = UpdateThenReturnNewTunnelPositions(deltatime);
+
+        UpdateColliders(vertices);
+        DrawTunnels(vertices);
     }
-
-
-    /// <summary>
-    /// Updates the tunnel positions given the delta time.
-    /// </summary>
-    /// <param name="deltaTime">The delta from the last frame</param>
-    private void UpdateTunnelPositions(float deltatime)
-    {
-        // update all the tunnels
-        foreach (GameObject tunnelObject in tunnelObjectsInUse)
-        {
-            Tunnel tunnel = tunnelObject.GetComponent<Tunnel>();
-            tunnel.UpdateTunnelPosition(deltatime);
-        }
-    }
-
 
     /// <summary>
     /// Removes tunnels that are out of bounds.
@@ -104,7 +88,7 @@ public class TunnelSpawner : MonoBehaviour
 
             // set the new tunnels up
             tunnel = tunnelObjectsInUse.Peek().GetComponent<Tunnel>();
-            outOfBounds = tunnel == null ? false : tunnel.IsTunnelOutOfBounds();
+            outOfBounds = tunnel != null && tunnel.IsTunnelOutOfBounds();
         }
     }
 
@@ -128,7 +112,7 @@ public class TunnelSpawner : MonoBehaviour
     /// Return a vector of points that specifies the path created
     /// </summary>
     /// <returns>The tunnel points.</returns>
-    private Vector2[] GetTunnelPoints()
+    private Vector2[] UpdateThenReturnNewTunnelPositions(float deltatime)
     {
         GameObject tunnel = tunnelInBack;
         Tunnel tunnelComponent = tunnel != null ? tunnel.GetComponent<Tunnel>() : null;
@@ -138,6 +122,7 @@ public class TunnelSpawner : MonoBehaviour
         // if tunnel is not null and if tunnel is still in view
         while (tunnel != null && !tunnelComponent.IsTunnelOutOfBounds())
         {
+            tunnelComponent.UpdateTunnelPosition(deltatime);
             leftSide.Add(tunnelComponent.GetLeftSide());
             rightSide.Add(tunnelComponent.GetRightSide());
 

@@ -403,7 +403,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a2578c1b8fbea48efa36d722ed81ec1d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 50eb1e620d1b4420d8bae3044a1a371e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -612,7 +612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebfa65d16d6d7473f8b7498c7029cd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelAudioClip: {fileID: 8300000, guid: a2578c1b8fbea48efa36d722ed81ec1d, type: 3}
+  _levelAudioClip: {fileID: 8300000, guid: 50eb1e620d1b4420d8bae3044a1a371e, type: 3}
   _levelColor: {r: 0, g: 0.28549024, b: 0.65882355, a: 0}
   _levelSelected: 0
   _levelSeed: 0
@@ -1175,8 +1175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playButton: {fileID: 533807866}
-  _levelAudioClip: {fileID: 8300000, guid: a2578c1b8fbea48efa36d722ed81ec1d, type: 3}
-  _levelColor: {r: 0, g: 0, b: 0, a: 0}
+  _levelAudioClip: {fileID: 8300000, guid: 50eb1e620d1b4420d8bae3044a1a371e, type: 3}
+  _levelColor: {r: 0, g: 0.28549024, b: 0.65882355, a: 0}
 --- !u!1 &2112863137
 GameObject:
   m_ObjectHideFlags: 0
